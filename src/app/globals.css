@@ -1,0 +1,482 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════
+   WRENCH WORKS DIGITAL — Electric Blue TitanGate
+   Pure black. Thin type. Electric energy.
+   ═══════════════════════════════════════════════ */
+
+:root {
+  --bg: #000000;
+  --bg-elevated: #0A0A0A;
+  --surface: #0D0D0D;
+  --surface-hover: #141414;
+  --border: #1A1A1A;
+  --border-subtle: #111111;
+  --grid-line: #1A1A1A;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #999999;
+  --text-body: #777777;
+  --text-muted: #383838;
+  --text-dim: #555555;
+
+  --accent: #0A84FF;
+  --accent-bright: #3DA5FF;
+  --accent-dim: rgba(10, 132, 255, 0.10);
+  --accent-glow: rgba(10, 132, 255, 0.25);
+  --accent-subtle: rgba(10, 132, 255, 0.04);
+
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-space-grotesk);
+
+  --grain-opacity: 0.025;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-space-grotesk);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #000;
+  color: var(--text-primary);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent);
+  color: #000;
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px;
+}
+
+/* ── Typography Scale ── */
+.text-display {
+  font-size: clamp(48px, 12vw, 180px);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+}
+
+.text-headline {
+  font-size: clamp(36px, 6vw, 80px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.text-title {
+  font-size: clamp(24px, 3vw, 42px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.text-subtitle {
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.text-body {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.65;
+  max-width: 48ch;
+}
+
+.text-small {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0em;
+  line-height: 1.5;
+}
+
+.text-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.text-mono {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Corner Bracket Card ── */
+.bracket-card {
+  position: relative;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bracket-card::before,
+.bracket-card::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bracket-card::before {
+  top: 0; left: 0;
+  border-top: 1px solid var(--text-muted);
+  border-left: 1px solid var(--text-muted);
+}
+.bracket-card::after {
+  bottom: 0; right: 0;
+  border-bottom: 1px solid var(--text-muted);
+  border-right: 1px solid var(--text-muted);
+}
+.bracket-card:hover::before,
+.bracket-card:hover::after {
+  width: 30px;
+  height: 30px;
+  border-color: var(--accent);
+}
+.bracket-card:hover {
+  background: var(--accent-subtle);
+}
+.bracket-card-inner::before,
+.bracket-card-inner::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bracket-card-inner::before {
+  top: 0; right: 0;
+  border-top: 1px solid var(--text-muted);
+  border-right: 1px solid var(--text-muted);
+}
+.bracket-card-inner::after {
+  bottom: 0; left: 0;
+  border-bottom: 1px solid var(--text-muted);
+  border-left: 1px solid var(--text-muted);
+}
+.bracket-card:hover .bracket-card-inner::before,
+.bracket-card:hover .bracket-card-inner::after,
+.bracket-card-inner:hover::before,
+.bracket-card-inner:hover::after {
+  width: 30px;
+  height: 30px;
+  border-color: var(--accent);
+}
+
+/* ── Grid Line Dividers ── */
+.grid-line-v {
+  width: 1px;
+  background: var(--grid-line);
+  align-self: stretch;
+}
+.grid-line-h {
+  height: 1px;
+  background: var(--grid-line);
+  width: 100%;
+}
+
+/* ── Glow line ── */
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.3;
+}
+
+/* ── Video Background ── */
+.video-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+.video-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+.video-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.8));
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--text-primary);
+  color: #000;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-primary:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(10, 132, 255, 0.1);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-dim);
+}
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 40px;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-accent:hover {
+  background: var(--accent-bright);
+  box-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(10, 132, 255, 0.12);
+}
+.btn-accent:active {
+  transform: scale(0.98);
+}
+
+/* ── Loader ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.loader-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  animation: blink 0.9s step-start infinite;
+}
+
+/* ── Marquee ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+/* ── Stat counter ring ── */
+.stat-ring {
+  position: relative;
+}
+.stat-ring::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px dashed var(--accent);
+  opacity: 0.3;
+}
+
+/* ── Pulse ring animation ── */
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.05); opacity: 0.15; }
+  100% { transform: scale(1); opacity: 0.3; }
+}
+.pulse-ring {
+  animation: pulseRing 3s ease-in-out infinite;
+}
+
+/* ── Glow dot ── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent-dim); }
+  50% { box-shadow: 0 0 8px var(--accent), 0 0 20px var(--accent-glow); }
+}
+.glow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* ── Hover card lift ── */
+.hover-lift {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  background: var(--accent-subtle);
+}
+
+/* ── Animated border scan ── */
+@keyframes borderScan {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+.scan-border {
+  position: relative;
+}
+.scan-border::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: borderScan 3s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.scan-border:hover::after {
+  opacity: 1;
+}
+
+/* ── Section spacing ── */
+.section-massive {
+  padding-top: clamp(80px, 20vh, 240px);
+  padding-bottom: clamp(80px, 20vh, 240px);
+}
+.section-large {
+  padding-top: clamp(60px, 14vh, 180px);
+  padding-bottom: clamp(60px, 14vh, 180px);
+}
+
+/* ── Form input style ── */
+.form-input {
+  width: 100%;
+  padding: 14px 0;
+  font-size: 16px; /* 16px prevents iOS zoom on focus */
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+.form-input::placeholder {
+  color: var(--text-dim);
+}
+.form-input:focus {
+  border-bottom-color: var(--accent);
+  box-shadow: 0 1px 0 0 var(--accent);
+}
+.form-input:hover:not(:focus) {
+  border-bottom-color: var(--text-body);
+}
+
+/* ── Electric accent line keyframe ── */
+@keyframes electricSlide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ═══ Mobile Responsive ═══ */
+@media (max-width: 768px) {
+  .text-display {
+    font-size: clamp(40px, 11vw, 72px);
+  }
+  .text-headline {
+    font-size: clamp(28px, 7vw, 48px);
+  }
+  .text-title {
+    font-size: clamp(20px, 5vw, 32px);
+  }
+  .text-subtitle {
+    font-size: clamp(16px, 4vw, 20px);
+  }
+  .section-massive {
+    padding-top: clamp(60px, 12vh, 120px);
+    padding-bottom: clamp(60px, 12vh, 120px);
+  }
+  .bracket-card {
+    padding: 1.25rem;
+  }
+  .btn-primary, .btn-ghost, .btn-accent {
+    padding: 12px 24px;
+    font-size: 10px;
+  }
+  .video-bg video {
+    opacity: 0.2;
+  }
+}
