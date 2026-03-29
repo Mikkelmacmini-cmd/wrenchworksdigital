@@ -9,7 +9,7 @@ export default function Footer() {
       {/* Glow line on top */}
       <div className="glow-line absolute top-0 left-0 right-0" />
 
-      <div className="max-w-[1400px] mx-auto px-8 md:px-12">
+      <div className="max-w-[1400px] mx-auto px-5 md:px-12">
         {/* Large footer lettermark */}
         <div className="flex justify-center mb-20 relative">
           <Image src="/icon.png" alt="" width={200} height={200} className="h-20 w-auto opacity-10" />

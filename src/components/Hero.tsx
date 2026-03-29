@@ -31,7 +31,7 @@ export default function Hero() {
         className="absolute bottom-[30%] left-[12%] glow-dot z-10"
       />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-12 flex flex-col items-center gap-16">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-5 md:px-12 flex flex-col items-center gap-10 md:gap-16">
         {/* Tiny label with icon */}
         <motion.span
           initial={{ opacity: 0 }}
@@ -83,7 +83,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...spring, delay: 1.0 }}
-          className="flex gap-4"
+          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 sm:px-0"
         >
           <a href="#contact" className="btn-primary">
             Free Inspection
@@ -101,7 +101,7 @@ export default function Hero() {
           transition={{ delay: 1.5 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="text-mono" style={{ color: 'var(--text-muted)', fontSize: '9px' }}>SCROLL</span>
+          <span className="text-mono" style={{ color: 'var(--text-muted)', fontSize: '11px' }}>SCROLL</span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}

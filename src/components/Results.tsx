@@ -45,7 +45,7 @@ export default function Results() {
 
   return (
     <section id="results" ref={ref} className="section-massive">
-      <div className="max-w-[1400px] mx-auto px-8 md:px-12">
+      <div className="max-w-[1400px] mx-auto px-5 md:px-12">
         {/* Section label */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -132,22 +132,22 @@ export default function Results() {
               onMouseLeave={() => setHoveredRow(null)}
             >
               {/* Category label */}
-              <div className="md:col-span-3 py-8 md:pr-8">
+              <div className="md:col-span-3 py-6 md:py-8 md:pr-8">
                 <span
                   className="text-mono block mb-1 transition-colors duration-300"
-                  style={{ color: hoveredRow === i ? 'var(--accent)' : 'var(--text-muted)' }}
+                  style={{ color: hoveredRow === i ? 'var(--accent)' : 'var(--accent)', opacity: hoveredRow === i ? 1 : 0.6 }}
                 >
                   {String(i + 1).padStart(2, '0')} / {String(comparisons.length).padStart(2, '0')}
                 </span>
                 <h3 className="text-title transition-colors duration-300" style={{ color: hoveredRow === i ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
                   {comp.category}
                 </h3>
-                <span className="text-small" style={{ color: 'var(--text-dim)' }}>{comp.subtitle}</span>
+                <span className="text-small" style={{ color: 'var(--text-secondary)' }}>{comp.subtitle}</span>
               </div>
 
               {/* WWD — corner bracket card */}
-              <div className="md:col-span-4 md:col-start-5 py-8 md:px-6">
-                <div className="bracket-card bracket-card-inner relative" style={{ padding: '1.5rem' }}>
+              <div className="md:col-span-4 md:col-start-5 py-4 md:py-8 md:px-6">
+                <div className="bracket-card bracket-card-inner relative" style={{ padding: '1.25rem' }}>
                   <span className="text-label block mb-3" style={{ color: 'var(--accent)' }}>
                     <Lightning size={10} weight="fill" className="inline mr-1" style={{ verticalAlign: 'middle' }} />
                     WWD
@@ -157,10 +157,10 @@ export default function Results() {
               </div>
 
               {/* Old World */}
-              <div className="md:col-span-4 py-8 md:px-6">
-                <div className="bracket-card bracket-card-inner relative" style={{ padding: '1.5rem' }}>
-                  <span className="text-label block mb-3" style={{ color: 'var(--text-muted)' }}>THE OLD WORLD</span>
-                  <p className="text-body" style={{ color: 'var(--text-dim)' }}>{comp.old}</p>
+              <div className="md:col-span-4 py-4 md:py-8 md:px-6">
+                <div className="bracket-card bracket-card-inner relative" style={{ padding: '1.25rem' }}>
+                  <span className="text-label block mb-3" style={{ color: 'var(--text-secondary)' }}>THE OLD WORLD</span>
+                  <p className="text-body" style={{ color: 'var(--text-secondary)' }}>{comp.old}</p>
                 </div>
               </div>
             </motion.div>

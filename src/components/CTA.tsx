@@ -20,7 +20,7 @@ export default function CTA() {
         </video>
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-12">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-5 md:px-12">
         {/* Statement */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -69,7 +69,7 @@ export default function CTA() {
               <h3 className="text-label mb-2 text-center" style={{ color: 'var(--accent)' }}>
                 REQUEST YOUR FREE INSPECTION
               </h3>
-              <p className="text-mono text-center mb-10" style={{ color: 'var(--text-muted)', fontSize: '9px' }}>
+              <p className="text-mono text-center mb-10" style={{ color: 'var(--text-muted)', fontSize: 'clamp(11px, 2.8vw, 12px)' }}>
                 NO COMMITMENT &middot; NO CREDIT CARD &middot; JUST ANSWERS
               </p>
 
@@ -77,7 +77,7 @@ export default function CTA() {
                 {/* Row 1: Name + Shop */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative">
-                    <label className="text-mono block mb-2" style={{ color: focused === 'name' ? 'var(--accent)' : 'var(--text-dim)', fontSize: '9px', transition: 'color 0.3s' }}>
+                    <label className="text-mono block mb-2" style={{ color: focused === 'name' ? 'var(--accent)' : 'var(--text-dim)', fontSize: 'clamp(11px, 2.8vw, 12px)', transition: 'color 0.3s' }}>
                       YOUR NAME
                     </label>
                     <div className="relative flex items-center">
@@ -93,7 +93,7 @@ export default function CTA() {
                     </div>
                   </div>
                   <div className="relative">
-                    <label className="text-mono block mb-2" style={{ color: focused === 'shop' ? 'var(--accent)' : 'var(--text-dim)', fontSize: '9px', transition: 'color 0.3s' }}>
+                    <label className="text-mono block mb-2" style={{ color: focused === 'shop' ? 'var(--accent)' : 'var(--text-dim)', fontSize: 'clamp(11px, 2.8vw, 12px)', transition: 'color 0.3s' }}>
                       SHOP NAME
                     </label>
                     <div className="relative flex items-center">
@@ -112,7 +112,7 @@ export default function CTA() {
 
                 {/* Row 2: Phone */}
                 <div className="relative">
-                  <label className="text-mono block mb-2" style={{ color: focused === 'phone' ? 'var(--accent)' : 'var(--text-dim)', fontSize: '9px', transition: 'color 0.3s' }}>
+                  <label className="text-mono block mb-2" style={{ color: focused === 'phone' ? 'var(--accent)' : 'var(--text-dim)', fontSize: 'clamp(11px, 2.8vw, 12px)', transition: 'color 0.3s' }}>
                     PHONE NUMBER
                   </label>
                   <div className="relative flex items-center">
@@ -131,7 +131,7 @@ export default function CTA() {
                 {/* Row 3: City + Website */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative">
-                    <label className="text-mono block mb-2" style={{ color: focused === 'city' ? 'var(--accent)' : 'var(--text-dim)', fontSize: '9px', transition: 'color 0.3s' }}>
+                    <label className="text-mono block mb-2" style={{ color: focused === 'city' ? 'var(--accent)' : 'var(--text-dim)', fontSize: 'clamp(11px, 2.8vw, 12px)', transition: 'color 0.3s' }}>
                       CITY
                     </label>
                     <div className="relative flex items-center">
@@ -147,7 +147,7 @@ export default function CTA() {
                     </div>
                   </div>
                   <div className="relative">
-                    <label className="text-mono block mb-2" style={{ color: focused === 'website' ? 'var(--accent)' : 'var(--text-dim)', fontSize: '9px', transition: 'color 0.3s' }}>
+                    <label className="text-mono block mb-2" style={{ color: focused === 'website' ? 'var(--accent)' : 'var(--text-dim)', fontSize: 'clamp(11px, 2.8vw, 12px)', transition: 'color 0.3s' }}>
                       CURRENT WEBSITE
                     </label>
                     <div className="relative flex items-center">
@@ -176,17 +176,17 @@ export default function CTA() {
 
                 {/* Trust badges */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-2">
-                  <span className="text-mono flex items-center gap-1" style={{ color: 'var(--text-muted)', fontSize: '9px' }}>
+                  <span className="text-mono flex items-center gap-1" style={{ color: 'var(--text-muted)', fontSize: 'clamp(11px, 2.8vw, 12px)' }}>
                     <Lightning size={8} weight="fill" style={{ color: 'var(--accent)' }} />
                     FREE AUDIT
                   </span>
                   <span className="hidden sm:block" style={{ width: '1px', height: '10px', background: 'var(--border)' }} />
-                  <span className="text-mono flex items-center gap-1" style={{ color: 'var(--text-muted)', fontSize: '9px' }}>
+                  <span className="text-mono flex items-center gap-1" style={{ color: 'var(--text-muted)', fontSize: 'clamp(11px, 2.8vw, 12px)' }}>
                     <Lightning size={8} weight="fill" style={{ color: 'var(--accent)' }} />
                     NO COMMITMENT
                   </span>
                   <span className="hidden sm:block" style={{ width: '1px', height: '10px', background: 'var(--border)' }} />
-                  <span className="text-mono flex items-center gap-1" style={{ color: 'var(--text-muted)', fontSize: '9px' }}>
+                  <span className="text-mono flex items-center gap-1" style={{ color: 'var(--text-muted)', fontSize: 'clamp(11px, 2.8vw, 12px)' }}>
                     <Lightning size={8} weight="fill" style={{ color: 'var(--accent)' }} />
                     RESULTS IN 30 DAYS
                   </span>

@@ -45,29 +45,42 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" ref={ref} className="section-massive relative">
-      <div className="max-w-[1400px] mx-auto px-8 md:px-12">
+      <div className="max-w-[1400px] mx-auto px-5 md:px-12">
         {/* Section intro grid */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-0 mb-16 md:mb-32"
+          className="mb-12 md:mb-32"
           style={{ borderBottom: '1px solid var(--grid-line)' }}
         >
-          <div className="py-6">
+          {/* Mobile: simple 2-col row */}
+          <div className="flex items-center justify-between py-5 md:hidden">
             <span className="text-mono flex items-center gap-2" style={{ color: 'var(--accent)' }}>
               <Lightning size={10} weight="fill" />
               TESTIMONIALS
             </span>
-          </div>
-          <div className="py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
-            <span className="text-mono" style={{ color: 'var(--text-muted)' }}>REAL RESULTS</span>
-          </div>
-          <div className="py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }} />
-          <div className="py-6 md:pl-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
-            <span className="text-mono" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-mono" style={{ color: 'var(--accent)', opacity: 0.6 }}>
               {String(active + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
             </span>
+          </div>
+          {/* Desktop: 4-col grid */}
+          <div className="hidden md:grid md:grid-cols-4 gap-0">
+            <div className="py-6">
+              <span className="text-mono flex items-center gap-2" style={{ color: 'var(--accent)' }}>
+                <Lightning size={10} weight="fill" />
+                TESTIMONIALS
+              </span>
+            </div>
+            <div className="py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
+              <span className="text-mono" style={{ color: 'var(--text-muted)' }}>REAL RESULTS</span>
+            </div>
+            <div className="py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }} />
+            <div className="py-6 md:pl-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
+              <span className="text-mono" style={{ color: 'var(--text-muted)' }}>
+                {String(active + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
+              </span>
+            </div>
           </div>
         </motion.div>
 

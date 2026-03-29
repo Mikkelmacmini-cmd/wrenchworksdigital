@@ -43,7 +43,7 @@ export default function Process() {
         </video>
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-12">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-5 md:px-12">
         {/* Section headline — centered */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -93,35 +93,45 @@ export default function Process() {
             />
           </div>
 
-          {/* Steps grid */}
+          {/* Steps grid — stacks on mobile, 4-col on desktop */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-0" style={{ borderTop: '1px solid var(--grid-line)' }}>
             {steps.map((step, i) => (
               <div
                 key={step.number}
-                className="py-10 md:pr-8 cursor-pointer transition-all duration-300"
+                className="py-8 md:py-10 md:pr-8 cursor-pointer transition-all duration-300"
                 style={{
-                  borderRight: i < 3 ? '1px solid var(--grid-line)' : 'none',
-                  paddingLeft: i > 0 ? '2rem' : 0,
+                  borderBottom: '1px solid var(--grid-line)',
+                  borderRight: undefined,
+                  paddingLeft: '0',
                   background: activeStep === i ? 'var(--accent-subtle)' : 'transparent',
                 }}
                 onMouseEnter={() => setActiveStep(i)}
+                onClick={() => setActiveStep(i)}
               >
-                {/* Step number */}
-                <span
-                  className="text-mono block mb-4 transition-colors duration-300"
-                  style={{ color: activeStep === i ? 'var(--accent)' : 'var(--text-muted)', fontSize: '10px' }}
-                >
-                  {step.number}
-                </span>
+                {/* Mobile: number + title on same row */}
+                <div className="flex items-center gap-3 mb-3 md:block">
+                  <span
+                    className="text-mono transition-colors duration-300"
+                    style={{ color: activeStep === i ? 'var(--accent)' : 'var(--accent)', opacity: activeStep === i ? 1 : 0.5 }}
+                  >
+                    {step.number}
+                  </span>
+                  <h3
+                    className="text-title md:hidden transition-colors duration-300"
+                    style={{ color: activeStep === i ? 'var(--text-primary)' : 'var(--text-secondary)' }}
+                  >
+                    {step.title}
+                  </h3>
+                </div>
                 <h3
-                  className="text-title mb-6 transition-colors duration-300"
+                  className="text-title mb-4 md:mb-6 transition-colors duration-300 hidden md:block"
                   style={{ color: activeStep === i ? 'var(--text-primary)' : 'var(--text-dim)' }}
                 >
                   {step.title}
                 </h3>
                 <p
                   className="text-body transition-colors duration-300"
-                  style={{ color: activeStep === i ? 'var(--text-body)' : 'var(--text-muted)' }}
+                  style={{ color: activeStep === i ? 'var(--text-body)' : 'var(--text-secondary)', opacity: activeStep === i ? 1 : 0.7 }}
                 >
                   {step.description}
                 </p>
@@ -129,7 +139,7 @@ export default function Process() {
                 {activeStep === i && (
                   <motion.div
                     layoutId="activeStepDot"
-                    className="glow-dot mt-6"
+                    className="glow-dot mt-5"
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   />
                 )}

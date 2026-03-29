@@ -51,28 +51,29 @@ export default function Services() {
         </video>
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-12">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-5 md:px-12">
         {/* Section intro — 4 column grid with vertical dividers */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
           className="grid grid-cols-1 md:grid-cols-4 gap-0 mb-16 md:mb-32"
+          style={{ borderBottom: '1px solid var(--grid-line)' }}
         >
-          <div className="py-6 md:pr-8">
+          <div className="py-5 md:py-6 md:pr-8">
             <span className="text-mono flex items-center gap-2" style={{ color: 'var(--accent)' }}>
               <Lightning size={10} weight="fill" />
               OUR VISION
             </span>
           </div>
-          <div className="py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
+          <div className="hidden md:block py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
             <span className="text-mono" style={{ color: 'var(--text-muted)' }}>WRENCH WORKS DIGITAL</span>
           </div>
-          <div className="py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
+          <div className="hidden md:block py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
             <span className="text-mono" style={{ color: 'var(--text-muted)' }}>@WRENCHWORKSDIGITAL</span>
           </div>
-          <div className="py-6 md:pl-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
-            <p className="text-small" style={{ color: 'var(--text-muted)' }}>
+          <div className="py-5 md:py-6 md:pl-8 md:border-l" style={{ borderColor: 'var(--grid-line)' }}>
+            <p className="text-small" style={{ color: 'var(--text-secondary)' }}>
               We build systems that <span style={{ color: 'var(--accent)' }}>fill your bays</span> every single day. Not vanity metrics. Not empty promises. Real customers through your doors.
             </p>
           </div>
@@ -100,7 +101,7 @@ export default function Services() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ ...spring, delay: 0.3 + i * 0.1 }}
-              className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-16 md:py-20 scan-border cursor-pointer"
+              className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-10 md:py-20 scan-border cursor-pointer"
               style={{
                 borderTop: '1px solid var(--grid-line)',
                 background: hoveredIndex === i ? 'var(--accent-subtle)' : 'transparent',
@@ -108,9 +109,29 @@ export default function Services() {
               }}
               onMouseEnter={() => setHoveredIndex(i)}
               onMouseLeave={() => setHoveredIndex(null)}
+              onClick={() => setHoveredIndex(hoveredIndex === i ? null : i)}
             >
-              {/* Number */}
-              <div className="md:col-span-1">
+              {/* Number + image row on mobile */}
+              <div className="flex items-center justify-between md:hidden mb-2">
+                <span
+                  className="text-mono transition-colors duration-300"
+                  style={{ color: hoveredIndex === i ? 'var(--accent)' : 'var(--accent)', opacity: hoveredIndex === i ? 1 : 0.6 }}
+                >
+                  {service.number}
+                </span>
+                <div
+                  className="w-14 h-14 rounded-sm overflow-hidden transition-all duration-300"
+                  style={{
+                    border: hoveredIndex === i ? '1px solid var(--accent)' : '1px solid var(--border)',
+                    boxShadow: hoveredIndex === i ? '0 0 20px var(--accent-dim)' : 'none',
+                  }}
+                >
+                  <img src={service.image} alt="" className="w-full h-full object-cover transition-opacity duration-300" style={{ opacity: hoveredIndex === i ? 0.9 : 0.5 }} />
+                </div>
+              </div>
+
+              {/* Number — desktop only */}
+              <div className="hidden md:block md:col-span-1">
                 <span
                   className="text-mono transition-colors duration-300"
                   style={{ color: hoveredIndex === i ? 'var(--accent)' : 'var(--text-muted)' }}
@@ -121,7 +142,7 @@ export default function Services() {
 
               {/* Title + tagline */}
               <div className="md:col-span-4">
-                <h3 className="text-title mb-3 transition-colors duration-300" style={{ color: hoveredIndex === i ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
+                <h3 className="text-title mb-2 md:mb-3 transition-colors duration-300" style={{ color: hoveredIndex === i ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
                   {service.title}
                 </h3>
                 <p className="text-subtitle transition-colors duration-300" style={{ color: hoveredIndex === i ? 'var(--accent)' : 'var(--text-dim)' }}>
@@ -129,7 +150,7 @@ export default function Services() {
                 </p>
               </div>
 
-              {/* Vertical divider */}
+              {/* Vertical divider — desktop only */}
               <div className="hidden md:block md:col-span-1 mx-auto" style={{ width: '1px', alignSelf: 'stretch', background: hoveredIndex === i ? 'var(--accent)' : 'var(--grid-line)', transition: 'background 0.3s', opacity: hoveredIndex === i ? 0.4 : 1 }} />
 
               {/* Description */}
@@ -139,8 +160,8 @@ export default function Services() {
                 </p>
               </div>
 
-              {/* Image thumbnail */}
-              <div className="md:col-span-2 flex items-center justify-end">
+              {/* Image thumbnail — desktop only */}
+              <div className="hidden md:flex md:col-span-2 items-center justify-end">
                 <div
                   className="w-16 h-16 rounded-sm overflow-hidden transition-all duration-300"
                   style={{
