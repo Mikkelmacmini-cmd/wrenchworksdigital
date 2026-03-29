@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Lightning } from '@phosphor-icons/react'
 
@@ -29,6 +29,82 @@ const steps = [
 
 const spring = { type: 'spring' as const, stiffness: 60, damping: 20 }
 
+// Each step tracks its own scroll visibility and reports back
+function ProcessStep({
+  step,
+  i,
+  active,
+  onEnterView,
+}: {
+  step: typeof steps[0]
+  i: number
+  active: boolean
+  onEnterView: (i: number) => void
+}) {
+  const stepRef = useRef<HTMLDivElement>(null)
+  // Fires when this step is roughly centred in the viewport
+  const inView = useInView(stepRef, { margin: '-30% 0px -30% 0px' })
+
+  useEffect(() => {
+    if (inView) onEnterView(i)
+  }, [inView, i, onEnterView])
+
+  return (
+    <div
+      ref={stepRef}
+      className="py-8 md:py-10 md:pr-8 transition-all duration-500"
+      style={{
+        borderBottom: '1px solid var(--grid-line)',
+        background: active ? 'var(--accent-subtle)' : 'transparent',
+        paddingLeft: '0',
+      }}
+    >
+      {/* Mobile: number + title inline */}
+      <div className="flex items-center gap-3 mb-3 md:block">
+        <span
+          className="text-mono transition-colors duration-500"
+          style={{ color: 'var(--accent)', opacity: active ? 1 : 0.4 }}
+        >
+          {step.number}
+        </span>
+        <h3
+          className="text-title md:hidden transition-colors duration-500"
+          style={{ color: active ? 'var(--text-primary)' : 'var(--text-secondary)' }}
+        >
+          {step.title}
+        </h3>
+      </div>
+
+      {/* Desktop: title on its own line */}
+      <h3
+        className="hidden md:block text-title mb-4 md:mb-6 transition-colors duration-500"
+        style={{ color: active ? 'var(--text-primary)' : 'var(--text-dim)' }}
+      >
+        {step.title}
+      </h3>
+
+      <p
+        className="text-body transition-all duration-500"
+        style={{
+          color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
+          opacity: active ? 1 : 0.55,
+        }}
+      >
+        {step.description}
+      </p>
+
+      {/* Active glow dot */}
+      {active && (
+        <motion.div
+          layoutId="activeStepDot"
+          className="glow-dot mt-5"
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        />
+      )}
+    </div>
+  )
+}
+
 export default function Process() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
@@ -44,7 +120,7 @@ export default function Process() {
       </div>
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-5 md:px-12">
-        {/* Section headline — centered */}
+        {/* Section headline */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -63,11 +139,10 @@ export default function Process() {
           </motion.span>
           <h2 className="text-headline" style={{ color: 'var(--text-primary)' }}>
             From Selection<br />
-            <span style={{ color: 'var(--text-dim)' }}>to Legacy.</span>
+            <span style={{ color: 'var(--accent)' }}>to Legacy.</span>
           </h2>
         </motion.div>
 
-        {/* 4-column process strip */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
@@ -75,7 +150,7 @@ export default function Process() {
         >
           {/* Step counter */}
           <div className="flex items-center gap-2 mb-12">
-            <span className="text-mono" style={{ color: 'var(--accent)' }}>
+            <span className="text-mono transition-all duration-500" style={{ color: 'var(--accent)' }}>
               {String(activeStep + 1).padStart(2, '0')}
             </span>
             <span className="text-mono" style={{ color: 'var(--text-muted)' }}>/</span>
@@ -84,66 +159,32 @@ export default function Process() {
             </span>
           </div>
 
-          {/* Progress bar */}
+          {/* Animated progress bar */}
           <div className="relative mb-0" style={{ height: '2px', background: 'var(--border)' }}>
             <motion.div
               animate={{ width: `${((activeStep + 1) / steps.length) * 100}%` }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              style={{ height: '2px', background: 'var(--accent)', boxShadow: '0 0 10px var(--accent-glow)' }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                height: '2px',
+                background: 'var(--accent)',
+                boxShadow: '0 0 10px var(--accent-glow)',
+              }}
             />
           </div>
 
-          {/* Steps grid — stacks on mobile, 4-col on desktop */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-0" style={{ borderTop: '1px solid var(--grid-line)' }}>
+          {/* Steps — each fires onEnterView when scrolled into view */}
+          <div
+            className="grid grid-cols-1 md:grid-cols-4 gap-0"
+            style={{ borderTop: '1px solid var(--grid-line)' }}
+          >
             {steps.map((step, i) => (
-              <div
+              <ProcessStep
                 key={step.number}
-                className="py-8 md:py-10 md:pr-8 cursor-pointer transition-all duration-300"
-                style={{
-                  borderBottom: '1px solid var(--grid-line)',
-                  borderRight: undefined,
-                  paddingLeft: '0',
-                  background: activeStep === i ? 'var(--accent-subtle)' : 'transparent',
-                }}
-                onMouseEnter={() => setActiveStep(i)}
-                onClick={() => setActiveStep(i)}
-              >
-                {/* Mobile: number + title on same row */}
-                <div className="flex items-center gap-3 mb-3 md:block">
-                  <span
-                    className="text-mono transition-colors duration-300"
-                    style={{ color: activeStep === i ? 'var(--accent)' : 'var(--accent)', opacity: activeStep === i ? 1 : 0.5 }}
-                  >
-                    {step.number}
-                  </span>
-                  <h3
-                    className="text-title md:hidden transition-colors duration-300"
-                    style={{ color: activeStep === i ? 'var(--text-primary)' : 'var(--text-secondary)' }}
-                  >
-                    {step.title}
-                  </h3>
-                </div>
-                <h3
-                  className="text-title mb-4 md:mb-6 transition-colors duration-300 hidden md:block"
-                  style={{ color: activeStep === i ? 'var(--text-primary)' : 'var(--text-dim)' }}
-                >
-                  {step.title}
-                </h3>
-                <p
-                  className="text-body transition-colors duration-300"
-                  style={{ color: activeStep === i ? 'var(--text-body)' : 'var(--text-secondary)', opacity: activeStep === i ? 1 : 0.7 }}
-                >
-                  {step.description}
-                </p>
-                {/* Active indicator dot */}
-                {activeStep === i && (
-                  <motion.div
-                    layoutId="activeStepDot"
-                    className="glow-dot mt-5"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </div>
+                step={step}
+                i={i}
+                active={activeStep === i}
+                onEnterView={setActiveStep}
+              />
             ))}
           </div>
         </motion.div>
