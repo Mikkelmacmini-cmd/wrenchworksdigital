@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Lightning } from '@phosphor-icons/react'
+import Image from 'next/image'
 
 const services = [
   {
@@ -71,11 +72,14 @@ function ServiceCard({ service, i, sectionInView }: { service: typeof services[0
             boxShadow: active ? '0 0 20px var(--accent-dim)' : 'none',
           }}
         >
-          <img
+          <Image
             src={service.image}
             alt=""
+            width={64}
+            height={64}
             className="w-full h-full object-cover transition-opacity duration-500"
             style={{ opacity: active ? 0.9 : 0.4 }}
+            loading="lazy"
           />
         </div>
       </div>
@@ -156,7 +160,7 @@ export default function Services() {
     <section id="services" ref={ref} className="section-massive relative">
       {/* Dark atmospheric video background */}
       <div className="video-bg">
-        <video autoPlay muted loop playsInline>
+        <video autoPlay muted loop playsInline preload="none">
           <source src="/videos/Circuit.mp4" type="video/mp4" />
         </video>
       </div>

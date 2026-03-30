@@ -10,7 +10,7 @@ export default function Hero() {
     <section className="relative flex flex-col items-center justify-center text-center overflow-hidden" style={{ minHeight: '100dvh' }}>
       {/* Dark atmospheric video background */}
       <div className="video-bg">
-        <video autoPlay muted loop playsInline>
+        <video autoPlay muted loop playsInline preload="metadata">
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
       </div>

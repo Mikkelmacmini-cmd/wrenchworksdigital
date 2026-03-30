@@ -17,12 +17,12 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
 
   useEffect(() => {
     const timers = statusMessages.map((_, i) =>
-      setTimeout(() => setStep(i), i * 600 + 300)
+      setTimeout(() => setStep(i), i * 280 + 150)
     )
     const finishTimer = setTimeout(() => {
       setVisible(false)
-      setTimeout(onComplete, 600)
-    }, statusMessages.length * 600 + 800)
+      setTimeout(onComplete, 400)
+    }, statusMessages.length * 280 + 400)
 
     return () => {
       timers.forEach(clearTimeout)

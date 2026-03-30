@@ -15,7 +15,7 @@ export default function CTA() {
     <section id="contact" ref={ref} className="section-massive relative overflow-hidden">
       {/* Video background */}
       <div className="video-bg">
-        <video autoPlay muted loop playsInline>
+        <video autoPlay muted loop playsInline preload="none">
           <source src="/videos/Charge.mp4" type="video/mp4" />
         </video>
       </div>
