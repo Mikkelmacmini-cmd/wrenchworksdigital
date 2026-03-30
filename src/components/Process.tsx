@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Lightning } from '@phosphor-icons/react'
 
@@ -29,21 +29,22 @@ const steps = [
 
 const spring = { type: 'spring' as const, stiffness: 60, damping: 20 }
 
-// Each step tracks its own scroll visibility and reports back
-function ProcessStep({
+// Mobile-only: each step tracks its own scroll visibility
+function MobileStep({
   step,
   i,
   active,
   onEnterView,
+  onActivate,
 }: {
   step: typeof steps[0]
   i: number
   active: boolean
   onEnterView: (i: number) => void
+  onActivate: (i: number) => void
 }) {
   const stepRef = useRef<HTMLDivElement>(null)
-  // Fires when this step is roughly centred in the viewport
-  const inView = useInView(stepRef, { margin: '-30% 0px -30% 0px' })
+  const inView = useInView(stepRef, { margin: '-25% 0px -25% 0px' })
 
   useEffect(() => {
     if (inView) onEnterView(i)
@@ -52,54 +53,26 @@ function ProcessStep({
   return (
     <div
       ref={stepRef}
-      className="py-8 md:py-10 md:pr-8 transition-all duration-500"
+      onClick={() => onActivate(i)}
+      className="py-8 transition-all duration-500 cursor-pointer"
       style={{
         borderBottom: '1px solid var(--grid-line)',
         background: active ? 'var(--accent-subtle)' : 'transparent',
-        paddingLeft: '0',
       }}
     >
-      {/* Mobile: number + title inline */}
-      <div className="flex items-center gap-3 mb-3 md:block">
-        <span
-          className="text-mono transition-colors duration-500"
-          style={{ color: 'var(--accent)', opacity: active ? 1 : 0.4 }}
-        >
+      <div className="flex items-center gap-3 mb-3">
+        <span className="text-mono transition-colors duration-500" style={{ color: 'var(--accent)', opacity: active ? 1 : 0.4 }}>
           {step.number}
         </span>
-        <h3
-          className="text-title md:hidden transition-colors duration-500"
-          style={{ color: active ? 'var(--text-primary)' : 'var(--text-secondary)' }}
-        >
+        <h3 className="text-title transition-colors duration-500" style={{ color: active ? 'var(--text-primary)' : 'var(--text-secondary)', fontSize: 'clamp(20px, 5vw, 32px)' }}>
           {step.title}
         </h3>
       </div>
-
-      {/* Desktop: title on its own line */}
-      <h3
-        className="hidden md:block text-title mb-4 md:mb-6 transition-colors duration-500"
-        style={{ color: active ? 'var(--text-primary)' : 'var(--text-dim)' }}
-      >
-        {step.title}
-      </h3>
-
-      <p
-        className="text-body transition-all duration-500"
-        style={{
-          color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
-          opacity: active ? 1 : 0.55,
-        }}
-      >
+      <p className="text-body transition-all duration-500" style={{ color: active ? 'var(--text-primary)' : 'var(--text-secondary)', opacity: active ? 1 : 0.55 }}>
         {step.description}
       </p>
-
-      {/* Active glow dot */}
       {active && (
-        <motion.div
-          layoutId="activeStepDot"
-          className="glow-dot mt-5"
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        />
+        <motion.div layoutId="mobileActiveStepDot" className="glow-dot mt-5" transition={{ type: 'spring', stiffness: 300, damping: 30 }} />
       )}
     </div>
   )
@@ -109,6 +82,18 @@ export default function Process() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
   const [activeStep, setActiveStep] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  const handleEnterView = useCallback((i: number) => {
+    if (isMobile) setActiveStep(i)
+  }, [isMobile])
 
   return (
     <section id="process" ref={ref} className="section-massive relative overflow-hidden">
@@ -149,7 +134,7 @@ export default function Process() {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           {/* Step counter */}
-          <div className="flex items-center gap-2 mb-12">
+          <div className="flex items-center gap-2 mb-6 md:mb-12">
             <span className="text-mono transition-all duration-500" style={{ color: 'var(--accent)' }}>
               {String(activeStep + 1).padStart(2, '0')}
             </span>
@@ -159,33 +144,76 @@ export default function Process() {
             </span>
           </div>
 
-          {/* Animated progress bar */}
+          {/* Progress bar */}
           <div className="relative mb-0" style={{ height: '2px', background: 'var(--border)' }}>
             <motion.div
               animate={{ width: `${((activeStep + 1) / steps.length) * 100}%` }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                height: '2px',
-                background: 'var(--accent)',
-                boxShadow: '0 0 10px var(--accent-glow)',
-              }}
+              style={{ height: '2px', background: 'var(--accent)', boxShadow: '0 0 10px var(--accent-glow)' }}
             />
           </div>
 
-          {/* Steps — each fires onEnterView when scrolled into view */}
-          <div
-            className="grid grid-cols-1 md:grid-cols-4 gap-0"
-            style={{ borderTop: '1px solid var(--grid-line)' }}
-          >
+          {/* MOBILE: stacked, scroll-activated */}
+          <div className="md:hidden" style={{ borderTop: '1px solid var(--grid-line)' }}>
             {steps.map((step, i) => (
-              <ProcessStep
+              <MobileStep
                 key={step.number}
                 step={step}
                 i={i}
                 active={activeStep === i}
-                onEnterView={setActiveStep}
+                onEnterView={handleEnterView}
+                onActivate={setActiveStep}
               />
             ))}
+          </div>
+
+          {/* DESKTOP: side-by-side, hover + click activated */}
+          <div
+            className="hidden md:grid md:grid-cols-4 gap-0"
+            style={{ borderTop: '1px solid var(--grid-line)' }}
+          >
+            {steps.map((step, i) => {
+              const active = activeStep === i
+              return (
+                <div
+                  key={step.number}
+                  className="py-10 pr-8 cursor-pointer transition-all duration-500 relative"
+                  style={{
+                    borderRight: i < 3 ? '1px solid var(--grid-line)' : 'none',
+                    paddingLeft: i > 0 ? '2rem' : 0,
+                    background: active ? 'var(--accent-subtle)' : 'transparent',
+                  }}
+                  onClick={() => setActiveStep(i)}
+                  onMouseEnter={() => setActiveStep(i)}
+                >
+                  <span
+                    className="text-mono block mb-4 transition-colors duration-300"
+                    style={{ color: 'var(--accent)', opacity: active ? 1 : 0.35 }}
+                  >
+                    {step.number}
+                  </span>
+                  <h3
+                    className="text-title mb-6 transition-colors duration-300"
+                    style={{ color: active ? 'var(--text-primary)' : 'var(--text-dim)' }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p
+                    className="text-body transition-all duration-300"
+                    style={{ color: active ? 'var(--text-body)' : 'var(--text-muted)', opacity: active ? 1 : 0.6 }}
+                  >
+                    {step.description}
+                  </p>
+                  {active && (
+                    <motion.div
+                      layoutId="desktopActiveStepDot"
+                      className="glow-dot mt-6"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </div>
+              )
+            })}
           </div>
         </motion.div>
       </div>

@@ -1,52 +1,20 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
-import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { Lightning, Quotes } from '@phosphor-icons/react'
-
-const testimonials = [
-  {
-    quote: "Before Wrench Works we were invisible online. Now we're the first result when people search for auto repair in our area. Phone hasn't stopped ringing.",
-    author: 'Mike Reynolds',
-    role: 'Owner, Reynolds Auto Care',
-    location: 'Denver, CO',
-    metric: '+340% calls',
-  },
-  {
-    quote: "They rebuilt our entire digital presence in under two weeks. New website, Google profile completely optimized, review system running. Wish we'd done this years ago.",
-    author: 'Sarah Chen',
-    role: 'Manager, Pacific Auto Works',
-    location: 'Portland, OR',
-    metric: '47 new reviews',
-  },
-  {
-    quote: "The review funnel alone paid for itself in the first month. We went from 12 Google reviews to over 80 in three months. Customers trust us before they even walk in.",
-    author: 'James Okafor',
-    role: 'Owner, Precision Garage',
-    location: 'Austin, TX',
-    metric: '4.9 avg rating',
-  },
-]
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { Lightning, Star } from '@phosphor-icons/react'
 
 const spring = { type: 'spring' as const, stiffness: 60, damping: 20 }
 
 export default function Testimonials() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
-  const [active, setActive] = useState(0)
-
-  // Auto-rotate
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActive((prev) => (prev + 1) % testimonials.length)
-    }, 6000)
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <section id="testimonials" ref={ref} className="section-massive relative">
       <div className="max-w-[1400px] mx-auto px-5 md:px-12">
-        {/* Section intro grid */}
+
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
@@ -54,17 +22,15 @@ export default function Testimonials() {
           className="mb-12 md:mb-32"
           style={{ borderBottom: '1px solid var(--grid-line)' }}
         >
-          {/* Mobile: simple 2-col row */}
+          {/* Mobile */}
           <div className="flex items-center justify-between py-5 md:hidden">
             <span className="text-mono flex items-center gap-2" style={{ color: 'var(--accent)' }}>
               <Lightning size={10} weight="fill" />
               TESTIMONIALS
             </span>
-            <span className="text-mono" style={{ color: 'var(--accent)', opacity: 0.6 }}>
-              {String(active + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
-            </span>
+            <span className="text-mono" style={{ color: 'var(--text-muted)' }}>REAL RESULTS</span>
           </div>
-          {/* Desktop: 4-col grid */}
+          {/* Desktop */}
           <div className="hidden md:grid md:grid-cols-4 gap-0">
             <div className="py-6">
               <span className="text-mono flex items-center gap-2" style={{ color: 'var(--accent)' }}>
@@ -77,84 +43,118 @@ export default function Testimonials() {
             </div>
             <div className="py-6 md:px-8" style={{ borderLeft: '1px solid var(--grid-line)' }} />
             <div className="py-6 md:pl-8" style={{ borderLeft: '1px solid var(--grid-line)' }}>
-              <span className="text-mono" style={{ color: 'var(--text-muted)' }}>
-                {String(active + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
-              </span>
+              <span className="text-mono" style={{ color: 'var(--text-muted)' }}>COMING SOON</span>
             </div>
           </div>
         </motion.div>
 
         {/* Glow line */}
-        <div className="glow-line mb-10 md:mb-20" />
+        <div className="glow-line mb-16 md:mb-24" />
 
-        {/* Testimonial display — centered large quote */}
-        <div className="flex flex-col items-center text-center">
-          {/* Large quote icon */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mb-12"
-          >
-            <Quotes size={48} weight="fill" style={{ color: 'var(--accent)', opacity: 0.3 }} />
-          </motion.div>
-
-          {/* Large quote */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-[800px]"
-            >
-              <p className="text-subtitle mb-12" style={{ color: 'var(--text-primary)', fontWeight: 300 }}>
-                &ldquo;{testimonials[active].quote}&rdquo;
-              </p>
-
-              <div className="flex flex-col items-center gap-2 mb-4">
-                <span className="text-small" style={{ color: 'var(--text-secondary)' }}>
-                  {testimonials[active].author}
-                </span>
-                <span className="text-mono" style={{ color: 'var(--text-muted)' }}>
-                  {testimonials[active].role} &middot; {testimonials[active].location}
-                </span>
-              </div>
-
-              <span className="text-mono inline-flex items-center gap-1" style={{ color: 'var(--accent)', fontSize: '10px' }}>
-                <Lightning size={10} weight="fill" />
-                {testimonials[active].metric}
-              </span>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Navigation dots — electric blue active */}
-          <div className="flex gap-3 mt-16">
-            {testimonials.map((_, i) => (
-              <button
+        {/* Coming Soon display */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ ...spring, delay: 0.3 }}
+          className="flex flex-col items-center text-center"
+        >
+          {/* Star row */}
+          <div className="flex items-center gap-2 mb-12">
+            {[...Array(5)].map((_, i) => (
+              <motion.div
                 key={i}
-                onClick={() => setActive(i)}
-                className="relative w-2 h-2 rounded-full transition-all duration-300 cursor-pointer"
-                style={{
-                  background: i === active ? 'var(--accent)' : 'var(--border)',
-                  boxShadow: i === active ? '0 0 8px var(--accent-glow)' : 'none',
-                }}
-              />
+                initial={{ opacity: 0, scale: 0 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ ...spring, delay: 0.4 + i * 0.08 }}
+              >
+                <Star
+                  size={24}
+                  weight="fill"
+                  style={{ color: 'var(--accent)', opacity: 0.4 + i * 0.12 }}
+                />
+              </motion.div>
             ))}
           </div>
 
-          {/* Auto-progress bar */}
-          <div className="mt-8 w-48 relative" style={{ height: '1px', background: 'var(--border)' }}>
-            <motion.div
-              key={active}
-              initial={{ width: '0%' }}
-              animate={{ width: '100%' }}
-              transition={{ duration: 6, ease: 'linear' }}
-              style={{ height: '1px', background: 'var(--accent)', boxShadow: '0 0 6px var(--accent-glow)' }}
-            />
+          {/* Main message */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ ...spring, delay: 0.6 }}
+            className="text-headline mb-6"
+            style={{ color: 'var(--text-primary)', fontWeight: 300 }}
+          >
+            Results Are Being Built.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.8 }}
+            className="text-body text-center mb-12"
+            style={{ color: 'var(--text-body)', maxWidth: '480px' }}
+          >
+            We&apos;re in the early stages of charging up auto repair shops across the country.
+            Client results and verified reviews are on the way.
+          </motion.p>
+
+          {/* Placeholder cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-[900px] mb-16">
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ ...spring, delay: 0.7 + i * 0.1 }}
+                className="bracket-card bracket-card-inner"
+                style={{ padding: '2rem', minHeight: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+              >
+                {/* Fake redacted lines */}
+                <div className="flex flex-col gap-3 mb-6">
+                  {[90, 70, 80, 55].map((w, j) => (
+                    <div
+                      key={j}
+                      style={{
+                        height: '8px',
+                        width: `${w}%`,
+                        background: 'var(--border)',
+                        borderRadius: '2px',
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div style={{ width: '80px', height: '8px', background: 'var(--border)', borderRadius: '2px', marginBottom: '6px' }} />
+                    <div style={{ width: '120px', height: '6px', background: 'var(--border)', borderRadius: '2px', opacity: 0.5 }} />
+                  </div>
+                  <span className="text-mono" style={{ color: 'var(--accent)', opacity: 0.4, fontSize: '10px' }}>
+                    PENDING
+                  </span>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </div>
+
+          {/* CTA nudge */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 1.1 }}
+            className="flex flex-col items-center gap-4"
+          >
+            <span className="text-mono flex items-center gap-2" style={{ color: 'var(--accent)', opacity: 0.7 }}>
+              <Lightning size={10} weight="fill" />
+              BE AMONG THE FIRST
+            </span>
+            <a href="#contact" className="btn-accent">
+              <Lightning size={14} weight="fill" />
+              Claim Your Free Audit
+            </a>
+          </motion.div>
+        </motion.div>
+
       </div>
     </section>
   )
