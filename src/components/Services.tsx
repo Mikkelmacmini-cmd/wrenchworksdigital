@@ -3,7 +3,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Lightning } from '@phosphor-icons/react'
-import Image from 'next/image'
 
 const services = [
   {
@@ -11,28 +10,24 @@ const services = [
     title: 'Mobile-First Websites',
     tagline: 'Your digital bay door.',
     description: 'Fast, conversion-focused sites designed for the phone in your customer\'s hand. Click-to-call, service pages, instant trust.',
-    image: '/mobile-website.png',
   },
   {
     number: '02',
     title: 'Google Business Profile',
     tagline: 'Your second storefront.',
     description: 'Optimized and actively managed. Weekly posts, review responses, photo updates. Every field maximized for clicks and calls.',
-    image: '/gbp.png',
   },
   {
     number: '03',
     title: 'Local SEO & Maps',
     tagline: 'Dominate local search.',
     description: 'When someone searches "oil change near me" — you appear first. Citation networks, signal optimization, position tracking.',
-    image: '/seo.png',
   },
   {
     number: '04',
     title: 'Automated Reviews',
     tagline: 'Reputation on autopilot.',
     description: 'Capture 5-star reviews at the perfect moment. Route negative feedback privately. More reviews, better ratings, zero effort.',
-    image: '/review-funnel.png',
   },
 ]
 
@@ -57,31 +52,14 @@ function ServiceCard({ service, i, sectionInView }: { service: typeof services[0
         transition: 'background 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
-      {/* Mobile: number + image row */}
-      <div className="flex items-center justify-between md:hidden mb-2">
+      {/* Mobile: number */}
+      <div className="flex items-center md:hidden mb-2">
         <span
           className="text-mono transition-colors duration-500"
           style={{ color: 'var(--accent)', opacity: active ? 1 : 0.4 }}
         >
           {service.number}
         </span>
-        <div
-          className="w-14 h-14 rounded-sm overflow-hidden transition-all duration-500"
-          style={{
-            border: active ? '1px solid var(--accent)' : '1px solid var(--border)',
-            boxShadow: active ? '0 0 20px var(--accent-dim)' : 'none',
-          }}
-        >
-          <Image
-            src={service.image}
-            alt=""
-            width={64}
-            height={64}
-            className="w-full h-full object-cover transition-opacity duration-500"
-            style={{ opacity: active ? 0.9 : 0.4 }}
-            loading="lazy"
-          />
-        </div>
       </div>
 
       {/* Number — desktop */}
@@ -122,7 +100,7 @@ function ServiceCard({ service, i, sectionInView }: { service: typeof services[0
       />
 
       {/* Description */}
-      <div className="md:col-span-4">
+      <div className="md:col-span-6">
         <p
           className="text-body transition-colors duration-500"
           style={{ color: active ? 'var(--text-primary)' : 'var(--text-body)', opacity: active ? 1 : 0.7 }}
@@ -131,23 +109,6 @@ function ServiceCard({ service, i, sectionInView }: { service: typeof services[0
         </p>
       </div>
 
-      {/* Image — desktop */}
-      <div className="hidden md:flex md:col-span-2 items-center justify-end">
-        <div
-          className="w-16 h-16 rounded-sm overflow-hidden transition-all duration-500"
-          style={{
-            border: active ? '1px solid var(--accent)' : '1px solid var(--border)',
-            boxShadow: active ? '0 0 20px var(--accent-dim)' : 'none',
-          }}
-        >
-          <img
-            src={service.image}
-            alt=""
-            className="w-full h-full object-cover transition-opacity duration-500"
-            style={{ opacity: active ? 0.8 : 0.35 }}
-          />
-        </div>
-      </div>
     </motion.div>
   )
 }
